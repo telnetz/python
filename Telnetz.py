@@ -1,7 +1,13 @@
-from Program.Check_Rtsp_Status import IPCam_Check_Status
+from Program.CCTV_SCAN import IPCam_Check_Status
+from Program.CCTV_VIEWER import CCTV_VIEWER
+from Program.System_Check import system_compair
 import sys
 
 class Menu:
+
+    def __init__(self):
+        self.check_platform = system_compair()
+        self.symbol = self.check_platform.check_system()
 
     def Screen_Menu(self):
         self.Logo = """
@@ -15,14 +21,14 @@ class Menu:
             *****************************************************************
                """
         self.Menu_List = """
-            Menu \u2B5D
+            Menu {0}
 
-                [1] \u2B9A IPCam Scan
-                [2] \u2B9A IPCam Viewer
-                [3] \u2B9A IPCam Capture
+                [1] {1} IPCam Scan
+                [2] {1} IPCam Viewer
+                [3] {1} IPCam Capture
 
                 [4] - Exit
-                    """
+                    """.format(self.symbol[0],self.symbol[1])
 
         self.Footer = """
 
@@ -33,7 +39,7 @@ class Menu:
         print(self.Logo+"\n"+self.Menu_List+"\n"+self.Footer)
 
     def Choosed_Menu(self):
-        self.Menu_Input = input("\t \u21B3 Please select choice : ")
+        self.Menu_Input = input("\t {0} Please select choice : ".format(self.symbol[2]))
         self.Check_Input()
 
     def Check_Input(self):
@@ -57,7 +63,7 @@ class Menu:
         if choice == "1":
             ipcam_scan = IPCam_Check_Status()
         elif choice == "2":
-            pass
+            cctv_viewer = CCTV_VIEWER()
         elif choice == "3":
             pass
         else:
